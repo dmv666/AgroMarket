@@ -2,23 +2,27 @@ import { useState } from "react";
 import { useAuth } from "@/shared/auth/AuthContext";
 import { Badge } from "@/shared/ui/Badge";
 import { Button } from "@/shared/ui/Button";
+import { IconStar } from "@/shared/ui/icons";
+import { useToast } from "@/shared/ui/Toast";
 import type { Conversacion } from "@/shared/api/types";
 import { useCalificar, useCompletarTransaccion, useMisTransacciones, useRegistrarVenta } from "@/features/transactions/api";
 
 /**
- * RF07/RF08 sin checkout: el vendedor cierra el trato y lo marca completado
- * desde el mismo chat donde negoció; el comprador califica ahí mismo. Vive
- * junto al chat porque es donde naturalmente ocurre la conversación de venta.
+ * Sin checkout: el vendedor cierra el trato y lo marca completado desde el
+ * mismo chat donde negoció; el comprador califica ahí mismo. Vive junto al
+ * chat porque es donde naturalmente ocurre la conversación de venta.
  */
 export function TransactionPanel({ conversacion }: { conversacion: Conversacion }) {
   const { usuario } = useAuth();
+  const { notificar } = useToast();
   const { data: transacciones } = useMisTransacciones();
   const registrarVenta = useRegistrarVenta();
   const completar = useCompletarTransaccion();
   const calificar = useCalificar();
   const [puntuacion, setPuntuacion] = useState(5);
+  const [hoverPuntuacion, setHoverPuntuacion] = useState(0);
   const [comentario, setComentario] = useState("");
-  const [mensaje, setMensaje] = useState<string | null>(null);
+  const [yaCalificado, setYaCalificado] = useState(false);
 
   if (!usuario) return null;
   const esVendedor = usuario.id === conversacion.vendedor.id;
@@ -34,54 +38,69 @@ export function TransactionPanel({ conversacion }: { conversacion: Conversacion 
           <Button
             variante="ghost"
             className="text-xs"
-            onClick={() => registrarVenta.mutate({ publicacion: conversacion.publicacion, comprador: conversacion.comprador.id })}
+            onClick={() =>
+              registrarVenta.mutate(
+                { publicacion: conversacion.publicacion, comprador: conversacion.comprador.id },
+                { onSuccess: () => notificar("Venta registrada.") },
+              )
+            }
           >
             Registrar venta con {conversacion.comprador.nombre_completo}
           </Button>
         ) : transaccion.estado === "pendiente" ? (
-          <Button variante="accent" className="text-xs" onClick={() => completar.mutate(transaccion.id)}>
+          <Button
+            variante="accent"
+            className="text-xs"
+            onClick={() => completar.mutate(transaccion.id, { onSuccess: () => notificar("Venta marcada como completada.") })}
+          >
             Marcar venta como completada
           </Button>
         ) : (
           <Badge tono="success">Venta completada</Badge>
         )
-      ) : transaccion?.estado === "completada" ? (
+      ) : transaccion?.estado === "completada" && !yaCalificado ? (
         <div>
-          <p className="mb-2 text-xs font-semibold">Califica esta compra (RF07)</p>
-          <div className="flex items-center gap-2">
-            <select
-              value={puntuacion}
-              onChange={(e) => setPuntuacion(Number(e.target.value))}
-              className="rounded border border-line bg-surface px-2 py-1 text-sm"
-            >
-              {[5, 4, 3, 2, 1].map((n) => (
-                <option key={n} value={n}>
-                  {"★".repeat(n)}
-                </option>
+          <p className="mb-2 text-xs font-semibold">¿Cómo te fue con esta compra?</p>
+          <div className="flex items-center gap-3">
+            <div className="flex gap-0.5" onMouseLeave={() => setHoverPuntuacion(0)}>
+              {[1, 2, 3, 4, 5].map((n) => (
+                <button
+                  key={n}
+                  type="button"
+                  onMouseEnter={() => setHoverPuntuacion(n)}
+                  onClick={() => setPuntuacion(n)}
+                  aria-label={`${n} estrellas`}
+                  className="p-0.5"
+                >
+                  <IconStar
+                    className={`h-[18px] w-[18px] ${
+                      n <= (hoverPuntuacion || puntuacion) ? "text-accent" : "text-line"
+                    }`}
+                  />
+                </button>
               ))}
-            </select>
+            </div>
             <input
-              className="flex-1 rounded border border-line bg-surface px-2 py-1 text-sm"
+              className="min-w-0 flex-1 rounded-lg border border-line bg-surface px-2.5 py-1.5 text-sm outline-none focus:border-primary"
               placeholder="Comentario (opcional)"
               value={comentario}
               onChange={(e) => setComentario(e.target.value)}
             />
             <Button
-              className="text-xs"
+              className="!px-3 !py-1.5 text-xs"
               onClick={async () => {
-                setMensaje(null);
                 try {
                   await calificar.mutateAsync({ transaccion: transaccion.id, puntuacion, comentario });
-                  setMensaje("¡Gracias por tu calificación!");
+                  setYaCalificado(true);
+                  notificar("¡Gracias por tu calificación!");
                 } catch {
-                  setMensaje("Ya calificaste esta transacción.");
+                  notificar("Ya habías calificado esta transacción.", "danger");
                 }
               }}
             >
               Enviar
             </Button>
           </div>
-          {mensaje && <p className="mt-1 text-xs text-muted">{mensaje}</p>}
         </div>
       ) : null}
     </div>

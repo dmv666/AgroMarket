@@ -7,6 +7,7 @@ export interface FiltrosCatalogo {
   ubicacion?: string;
   precio_min?: string;
   precio_max?: string;
+  vendedor?: number | string;
 }
 
 export function usePublicaciones(filtros: FiltrosCatalogo) {

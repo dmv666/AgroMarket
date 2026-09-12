@@ -4,9 +4,9 @@ import { ReportesTab } from "./ReportesTab";
 import { VerificacionesTab } from "./VerificacionesTab";
 
 const TABS = [
-  { id: "verificaciones", label: "Verificaciones (RF09)" },
-  { id: "publicaciones", label: "Publicaciones (RF09)" },
-  { id: "reportes", label: "Reportes (RF11)" },
+  { id: "verificaciones", label: "Verificaciones" },
+  { id: "publicaciones", label: "Publicaciones" },
+  { id: "reportes", label: "Reportes" },
 ] as const;
 
 export function AdminPage() {

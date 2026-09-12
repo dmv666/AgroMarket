@@ -67,7 +67,7 @@ export function DetalleFicha({ categoria, detalle }: { categoria: Categoria; det
           <span className="font-semibold capitalize">{detalle.tipo_genetica}</span>
         </div>
         <div className="mt-2 rounded-lg bg-success-bg p-3">
-          <p className="mb-1 text-xs font-bold uppercase text-success">Estado de salud (RF04)</p>
+          <p className="mb-1 text-xs font-semibold text-success">Estado de salud</p>
           <p className="text-sm text-ink">{detalle.estado_salud}</p>
         </div>
       </div>

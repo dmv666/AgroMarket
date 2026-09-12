@@ -16,14 +16,29 @@ export default defineConfig({
   server: {
     host: true,
     port: 5173,
+    // Docker Desktop en Windows no siempre reenvía los eventos de cambio de
+    // archivo del host al contenedor a través del bind mount — sin polling,
+    // Vite se queda sirviendo versiones viejas de los archivos sin avisar.
+    watch: {
+      usePolling: true,
+      interval: 300,
+    },
     proxy: {
+      // Sin changeOrigin: Django ve el Host original (localhost:5173), no
+      // "backend:8000". Con changeOrigin puesto, DRF construye las URLs de
+      // archivo (fotos, documento de verificación) usando ese Host interno
+      // de Docker, que el navegador del usuario no puede resolver.
       "/api": {
         target: "http://backend:8000",
-        changeOrigin: true,
       },
       "/ws": {
         target: "ws://backend:8000",
         ws: true,
+      },
+      // Las fotos de publicaciones y documentos de verificación se sirven
+      // desde aquí — mismo origen que el resto del SPA, sin líos de CORS.
+      "/media": {
+        target: "http://backend:8000",
       },
     },
   },

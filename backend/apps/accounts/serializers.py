@@ -24,7 +24,10 @@ class RegistroSerializer(serializers.ModelSerializer):
 
 
 class UsuarioSerializer(serializers.ModelSerializer):
-    """Vista propia (GET/PATCH /api/auth/me/) — incluye campos privados."""
+    """Vista propia (GET/PATCH /api/auth/me/) y, reutilizada por
+    apps.moderation, la cola de verificación del admin — por eso incluye
+    `documento_identidad_archivo`: sin verlo, un administrador no puede
+    revisar de verdad la solicitud (RF01/RF09), solo aprobarla a ciegas."""
 
     class Meta:
         model = Usuario
@@ -36,6 +39,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
             "ubicacion",
             "tipo_documento",
             "numero_documento",
+            "documento_identidad_archivo",
             "estado_verificacion",
             "es_administrador",
             "promedio_calificacion",
@@ -45,6 +49,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
         read_only_fields = [
             "id",
             "email",
+            "documento_identidad_archivo",
             "estado_verificacion",
             "es_administrador",
             "promedio_calificacion",

@@ -10,6 +10,7 @@ import { MessagesPage } from "@/features/messaging/MessagesPage";
 import { ProfilePage } from "@/features/profile/ProfilePage";
 import { PublicProfilePage } from "@/features/profile/PublicProfilePage";
 import { AdminPage } from "@/features/admin/AdminPage";
+import { ToastProvider } from "@/shared/ui/Toast";
 import { queryClient } from "./queryClient";
 import { Layout } from "./Layout";
 import { RutaAdmin, RutaProtegida } from "./RutaProtegida";
@@ -17,29 +18,31 @@ import { RutaAdmin, RutaProtegida } from "./RutaProtegida";
 export function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route element={<Layout />}>
-              <Route index element={<CatalogPage />} />
-              <Route path="publicaciones/:id" element={<PublicationDetailPage />} />
-              <Route path="usuarios/:id" element={<PublicProfilePage />} />
-              <Route path="login" element={<LoginPage />} />
-              <Route path="registro" element={<RegisterPage />} />
+      <ToastProvider>
+        <AuthProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route element={<Layout />}>
+                <Route index element={<CatalogPage />} />
+                <Route path="publicaciones/:id" element={<PublicationDetailPage />} />
+                <Route path="usuarios/:id" element={<PublicProfilePage />} />
+                <Route path="login" element={<LoginPage />} />
+                <Route path="registro" element={<RegisterPage />} />
 
-              <Route element={<RutaProtegida />}>
-                <Route path="publicar" element={<PublishPage />} />
-                <Route path="mensajes" element={<MessagesPage />} />
-                <Route path="perfil" element={<ProfilePage />} />
-              </Route>
+                <Route element={<RutaProtegida />}>
+                  <Route path="publicar" element={<PublishPage />} />
+                  <Route path="mensajes" element={<MessagesPage />} />
+                  <Route path="perfil" element={<ProfilePage />} />
+                </Route>
 
-              <Route element={<RutaAdmin />}>
-                <Route path="admin" element={<AdminPage />} />
+                <Route element={<RutaAdmin />}>
+                  <Route path="admin" element={<AdminPage />} />
+                </Route>
               </Route>
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </AuthProvider>
+            </Routes>
+          </BrowserRouter>
+        </AuthProvider>
+      </ToastProvider>
     </QueryClientProvider>
   );
 }

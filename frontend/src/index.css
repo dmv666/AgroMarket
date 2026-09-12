@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap");
+@import "tailwindcss";
 
 /* Paleta e identidad visual de "Campo Directo", ya validadas en el
    prototipo navegable previo — se reutilizan tal cual, no se reinventan. */
@@ -23,12 +23,54 @@
   --color-danger: #b5423a;
   --color-danger-bg: #f5e1de;
 
+  /* Un tinte propio por categoría: así el ojo distingue de un vistazo un
+     insumo veterinario de un lote de alimento sin leer la etiqueta, y las
+     fichas sin foto todavía se ven a propósito, no como un error. */
+  --color-cat-vet: #2b6e73;
+  --color-cat-vet-bg: #dceaeb;
+  --color-cat-alimento: #a1631f;
+  --color-cat-alimento-bg: #f3e2c7;
+  --color-cat-animal: #5c4a26;
+  --color-cat-animal-bg: #e7dfc9;
+
   --font-display: "Fraunces", ui-serif, Georgia, serif;
   --font-body: "Work Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --shadow-soft: 0 1px 2px rgba(28, 38, 33, 0.04), 0 6px 20px -8px rgba(28, 38, 33, 0.12);
+  --shadow-lifted: 0 4px 10px rgba(28, 38, 33, 0.06), 0 16px 32px -12px rgba(28, 38, 33, 0.18);
 }
 
 body {
   background-color: var(--color-bg);
   color: var(--color-ink);
   font-family: var(--font-body);
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.animate-toast-in {
+  animation: toast-in 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-fade-in {
+  animation: fade-in 0.25s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-toast-in,
+  .animate-fade-in {
+    animation: none;
+  }
 }

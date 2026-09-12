@@ -19,6 +19,7 @@ export interface Usuario extends UsuarioPublico {
   telefono: string;
   tipo_documento: string;
   numero_documento: string | null;
+  documento_identidad_archivo: string | null;
   es_administrador: boolean;
 }
 

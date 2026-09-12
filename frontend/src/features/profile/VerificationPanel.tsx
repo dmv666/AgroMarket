@@ -2,52 +2,88 @@ import { useState, type FormEvent } from "react";
 import { useAuth } from "@/shared/auth/AuthContext";
 import { Badge } from "@/shared/ui/Badge";
 import { Button } from "@/shared/ui/Button";
+import { Dropzone } from "@/shared/ui/Dropzone";
 import { Input, Select } from "@/shared/ui/Field";
+import { IconShieldCheck } from "@/shared/ui/icons";
+import { useToast } from "@/shared/ui/Toast";
 import { useEnviarVerificacion } from "./api";
+import { TIPO_DOCUMENTO_LABEL } from "./labels";
 
 const ESTADO_TONO = { pendiente: "warning", aprobado: "success", rechazado: "danger" } as const;
 const ESTADO_TEXTO = {
   pendiente: "Pendiente de revisión",
-  aprobado: "Verificado",
-  rechazado: "Rechazada — vuelve a intentarlo",
+  aprobado: "Identidad verificada",
+  rechazado: "Rechazada — corrige y reenvía",
 };
 
 export function VerificationPanel() {
   const { usuario, refrescarUsuario } = useAuth();
   const enviar = useEnviarVerificacion();
+  const { notificar } = useToast();
   const [tipoDocumento, setTipoDocumento] = useState("cedula");
   const [numeroDocumento, setNumeroDocumento] = useState("");
-  const [archivo, setArchivo] = useState<File | null>(null);
+  const [archivos, setArchivos] = useState<File[]>([]);
+  const [errorArchivo, setErrorArchivo] = useState<string | null>(null);
+  const [errorServidor, setErrorServidor] = useState<string | null>(null);
 
   if (!usuario) return null;
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    if (!archivo) return;
-    await enviar.mutateAsync({
-      tipo_documento: tipoDocumento,
-      numero_documento: numeroDocumento,
-      documento_identidad_archivo: archivo,
-    });
-    await refrescarUsuario();
+    setErrorServidor(null);
+
+    if (archivos.length === 0) {
+      setErrorArchivo("Adjunta una foto o escaneo de tu documento para continuar.");
+      return;
+    }
+    setErrorArchivo(null);
+
+    try {
+      await enviar.mutateAsync({
+        tipo_documento: tipoDocumento,
+        numero_documento: numeroDocumento,
+        documento_identidad_archivo: archivos[0],
+      });
+      await refrescarUsuario();
+      setArchivos([]);
+      setNumeroDocumento("");
+      notificar("Documento enviado. Un administrador lo revisará en breve.");
+    } catch {
+      setErrorServidor("No se pudo enviar el documento. Revisa el número de documento e intenta de nuevo.");
+    }
+  }
+
+  if (usuario.estado_verificacion === "aprobado") {
+    return (
+      <div className="flex items-center gap-3 rounded-xl bg-success-bg px-4 py-3.5">
+        <IconShieldCheck className="h-6 w-6 flex-none text-success" />
+        <div>
+          <p className="text-sm font-semibold text-ink">Identidad verificada</p>
+          <p className="text-xs text-muted">Puedes publicar y contactar a otros usuarios sin restricciones.</p>
+        </div>
+      </div>
+    );
   }
 
   return (
     <div>
       <div className="mb-4 flex items-center gap-2">
-        <span className="text-sm font-semibold">Estado de verificación (RF01)</span>
+        <span className="text-sm font-semibold">Verificación de identidad</span>
         <Badge tono={ESTADO_TONO[usuario.estado_verificacion]}>{ESTADO_TEXTO[usuario.estado_verificacion]}</Badge>
       </div>
 
-      {usuario.estado_verificacion !== "aprobado" && (
-        <form onSubmit={handleSubmit}>
-          <p className="mb-3 text-xs text-muted">
-            No puedes publicar ni contactar vendedores hasta que un administrador apruebe tu documento.
-          </p>
+      <form onSubmit={handleSubmit}>
+        <p className="mb-4 text-sm text-muted">
+          No puedes publicar ni contactar vendedores hasta que un administrador apruebe tu documento —
+          normalmente toma menos de un día.
+        </p>
+        <div className="grid grid-cols-2 gap-3">
           <Select etiqueta="Tipo de documento" value={tipoDocumento} onChange={(e) => setTipoDocumento(e.target.value)}>
-            <option value="cedula">Cédula de ciudadanía</option>
-            <option value="cedula_extranjeria">Cédula de extranjería</option>
-            <option value="nit">NIT</option>
+            {Object.entries(TIPO_DOCUMENTO_LABEL).map(([valor, label]) => (
+              <option key={valor} value={valor}>
+                {label}
+              </option>
+            ))}
           </Select>
           <Input
             etiqueta="Número de documento"
@@ -55,23 +91,26 @@ export function VerificationPanel() {
             value={numeroDocumento}
             onChange={(e) => setNumeroDocumento(e.target.value)}
           />
-          <div className="mb-4">
-            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted">
-              Foto o escaneo del documento
-            </label>
-            <input
-              type="file"
-              accept="image/*,.pdf"
-              required
-              onChange={(e) => setArchivo(e.target.files?.[0] ?? null)}
-              className="block w-full text-sm"
-            />
-          </div>
-          <Button type="submit" disabled={enviar.isPending}>
-            {enviar.isPending ? "Enviando..." : "Enviar para revisión"}
-          </Button>
-        </form>
-      )}
+        </div>
+
+        <Dropzone
+          etiqueta="Foto o escaneo del documento"
+          ayuda="JPG, PNG o PDF"
+          accept="image/*,.pdf"
+          archivos={archivos}
+          onChange={(lista) => {
+            setArchivos(lista);
+            if (lista.length > 0) setErrorArchivo(null);
+          }}
+          error={errorArchivo ?? undefined}
+        />
+
+        {errorServidor && <p className="mb-3 text-sm text-danger">{errorServidor}</p>}
+
+        <Button type="submit" disabled={enviar.isPending}>
+          {enviar.isPending ? "Enviando..." : "Enviar para revisión"}
+        </Button>
+      </form>
     </div>
   );
 }
