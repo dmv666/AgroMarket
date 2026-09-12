@@ -3,6 +3,7 @@ import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "@/shared/auth/AuthContext";
 import { NotificationBell } from "@/features/notifications/NotificationBell";
 import { IconClose, IconMenu } from "@/shared/ui/icons";
+import { ThemeToggle } from "@/shared/ui/ThemeToggle";
 
 const enlace = ({ isActive }: { isActive: boolean }) =>
   `rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
@@ -20,7 +21,7 @@ export function Layout() {
   useEffect(() => setMenuAbierto(false), [location.pathname]);
 
   return (
-    <div className="min-h-screen bg-bg">
+    <div className="flex min-h-screen flex-col bg-bg">
       <header className="sticky top-0 z-10 border-b border-line bg-surface/90 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center gap-5 px-4 py-3 sm:px-6">
           <Link to="/" className="flex items-center gap-1.5 font-display text-lg font-semibold text-primary">
@@ -48,6 +49,7 @@ export function Layout() {
           </nav>
 
           <div className="ml-auto hidden items-center gap-1 md:flex">
+            <ThemeToggle />
             {usuario ? (
               <>
                 <NotificationBell />
@@ -81,6 +83,7 @@ export function Layout() {
           </div>
 
           <div className="ml-auto flex items-center gap-1 md:hidden">
+            <ThemeToggle />
             {usuario && <NotificationBell />}
             <button
               onClick={() => setMenuAbierto((v) => !v)}
@@ -130,9 +133,23 @@ export function Layout() {
           </nav>
         )}
       </header>
-      <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
+      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:px-6">
         <Outlet />
       </main>
+
+      <footer className="border-t border-line">
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-2 px-4 py-6 text-xs text-muted sm:flex-row sm:justify-between sm:px-6">
+          <p>© 2026 Campo Directo — proyecto académico, Politécnico Grancolombiano.</p>
+          <div className="flex gap-4">
+            <Link to="/terminos" className="hover:text-ink">
+              Términos y condiciones
+            </Link>
+            <Link to="/privacidad" className="hover:text-ink">
+              Privacidad
+            </Link>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

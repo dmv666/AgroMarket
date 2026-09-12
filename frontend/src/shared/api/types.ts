@@ -20,6 +20,7 @@ export interface Usuario extends UsuarioPublico {
   tipo_documento: string;
   numero_documento: string | null;
   documento_identidad_archivo: string | null;
+  fecha_solicitud_verificacion: string | null;
   es_administrador: boolean;
 }
 
@@ -132,8 +133,11 @@ export type EstadoReporte = "sin_revisar" | "en_revision" | "resuelto";
 export interface Reporte {
   id: number;
   usuario_reporta: number;
+  usuario_reporta_nombre: string;
   publicacion_reportada: number | null;
+  publicacion_reportada_titulo: string | null;
   usuario_reportado: number | null;
+  usuario_reportado_nombre: string | null;
   motivo: string;
   descripcion: string;
   estado: EstadoReporte;

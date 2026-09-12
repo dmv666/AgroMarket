@@ -40,10 +40,86 @@
   --shadow-lifted: 0 4px 10px rgba(28, 38, 33, 0.06), 0 16px 32px -12px rgba(28, 38, 33, 0.18);
 }
 
+:root {
+  color-scheme: light;
+}
+
 body {
   background-color: var(--color-bg);
   color: var(--color-ink);
   font-family: var(--font-body);
+}
+
+/* Modo oscuro: mismos nombres de variable, valores distintos — ningún
+   componente necesita saber en qué modo está, todos ya consumen estos
+   tokens en vez de colores fijos. Sigue al sistema operativo por defecto;
+   ThemeToggle solo fija data-theme cuando el usuario elige explícitamente. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --color-bg: #10160f;
+    --color-surface: #171f16;
+    --color-surface-2: #202a1e;
+    --color-ink: #e9efe3;
+    --color-muted: #93a390;
+    --color-line: #2d3a2a;
+
+    --color-primary: #6fae6f;
+    --color-primary-ink: #0d1a0d;
+    --color-accent: #e0a253;
+    --color-accent-ink: #241503;
+
+    --color-success: #7bc17f;
+    --color-success-bg: #1c3020;
+    --color-warning: #e0b25c;
+    --color-warning-bg: #332811;
+    --color-danger: #e2867c;
+    --color-danger-bg: #3a201d;
+
+    --color-cat-vet: #7fc4ca;
+    --color-cat-vet-bg: #1b3033;
+    --color-cat-alimento: #d9a25c;
+    --color-cat-alimento-bg: #35270f;
+    --color-cat-animal: #c3ab6d;
+    --color-cat-animal-bg: #2e2818;
+
+    --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.2), 0 6px 20px -8px rgba(0, 0, 0, 0.4);
+    --shadow-lifted: 0 4px 10px rgba(0, 0, 0, 0.25), 0 16px 32px -12px rgba(0, 0, 0, 0.55);
+  }
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-bg: #10160f;
+  --color-surface: #171f16;
+  --color-surface-2: #202a1e;
+  --color-ink: #e9efe3;
+  --color-muted: #93a390;
+  --color-line: #2d3a2a;
+
+  --color-primary: #6fae6f;
+  --color-primary-ink: #0d1a0d;
+  --color-accent: #e0a253;
+  --color-accent-ink: #241503;
+
+  --color-success: #7bc17f;
+  --color-success-bg: #1c3020;
+  --color-warning: #e0b25c;
+  --color-warning-bg: #332811;
+  --color-danger: #e2867c;
+  --color-danger-bg: #3a201d;
+
+  --color-cat-vet: #7fc4ca;
+  --color-cat-vet-bg: #1b3033;
+  --color-cat-alimento: #d9a25c;
+  --color-cat-alimento-bg: #35270f;
+  --color-cat-animal: #c3ab6d;
+  --color-cat-animal-bg: #2e2818;
+
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.2), 0 6px 20px -8px rgba(0, 0, 0, 0.4);
+  --shadow-lifted: 0 4px 10px rgba(0, 0, 0, 0.25), 0 16px 32px -12px rgba(0, 0, 0, 0.55);
 }
 
 @keyframes toast-in {

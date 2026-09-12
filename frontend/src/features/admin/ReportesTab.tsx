@@ -28,7 +28,7 @@ export function ReportesTab() {
   return (
     <div className="space-y-3">
       {data.results.map((r) => (
-        <Card key={r.id}>
+        <Card key={r.id} className="transition-shadow hover:shadow-lifted">
           <div className="flex items-start justify-between gap-4">
             <div className="flex gap-3">
               <span className="mt-0.5 flex h-8 w-8 flex-none items-center justify-center rounded-full bg-danger-bg text-danger">
@@ -38,17 +38,26 @@ export function ReportesTab() {
                 <p className="text-sm font-semibold text-ink">{r.motivo}</p>
                 {r.descripcion && <p className="mt-1 text-xs text-muted">{r.descripcion}</p>}
                 <p className="mt-1.5 text-xs text-muted">
-                  {r.publicacion_reportada ? (
-                    <Link to={`/publicaciones/${r.publicacion_reportada}`} className="font-medium text-primary underline underline-offset-2">
-                      Ver publicación reportada
-                    </Link>
-                  ) : (
-                    <Link to={`/usuarios/${r.usuario_reportado}`} className="font-medium text-primary underline underline-offset-2">
-                      Ver usuario reportado
-                    </Link>
-                  )}
+                  Reportado por <span className="font-medium text-ink">{r.usuario_reporta_nombre}</span>
                   {" · "}
                   {tiempoRelativo(r.creado_en)}
+                </p>
+                <p className="mt-1 text-xs">
+                  {r.publicacion_reportada ? (
+                    <Link
+                      to={`/publicaciones/${r.publicacion_reportada}`}
+                      className="font-medium text-primary underline underline-offset-2 hover:text-primary/80"
+                    >
+                      Publicación: {r.publicacion_reportada_titulo}
+                    </Link>
+                  ) : (
+                    <Link
+                      to={`/usuarios/${r.usuario_reportado}`}
+                      className="font-medium text-primary underline underline-offset-2 hover:text-primary/80"
+                    >
+                      Usuario: {r.usuario_reportado_nombre}
+                    </Link>
+                  )}
                 </p>
               </div>
             </div>

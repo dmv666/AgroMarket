@@ -3,10 +3,14 @@ import { Link } from "react-router-dom";
 import { Button } from "@/shared/ui/Button";
 import { Card } from "@/shared/ui/Card";
 import { Select } from "@/shared/ui/Field";
+import { IconLocation } from "@/shared/ui/icons";
 import { useToast } from "@/shared/ui/Toast";
+import { tiempoRelativo } from "@/shared/lib/tiempoRelativo";
 import { CategoriaPlaceholder } from "@/features/catalog/CategoriaPlaceholder";
 import { CATEGORIA_LABEL } from "@/features/catalog/labels";
 import { useAprobarPublicacion, usePublicacionesModeracion, useRechazarPublicacion, useSuspenderPublicacion } from "./api";
+
+const formatoPrecio = new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 });
 
 type Accion = "rechazar" | "suspender";
 
@@ -49,9 +53,9 @@ export function PublicacionesTab() {
       ) : (
         <div className="space-y-3">
           {data.results.map((p) => (
-            <Card key={p.id}>
+            <Card key={p.id} className="transition-shadow hover:shadow-lifted">
               <div className="flex items-center gap-3">
-                <div className="h-14 w-14 flex-none overflow-hidden rounded-lg">
+                <div className="h-16 w-16 flex-none overflow-hidden rounded-lg">
                   {p.imagenes[0] ? (
                     <img src={p.imagenes[0].archivo} alt="" className="h-full w-full object-cover" />
                   ) : (
@@ -59,12 +63,29 @@ export function PublicacionesTab() {
                   )}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <Link to={`/publicaciones/${p.id}`} className="font-semibold hover:text-primary">
-                    {p.titulo}
-                  </Link>
+                  <div className="flex flex-wrap items-baseline gap-x-2">
+                    <Link to={`/publicaciones/${p.id}`} className="font-semibold hover:text-primary">
+                      {p.titulo}
+                    </Link>
+                    <span className="font-display text-sm font-semibold text-accent">
+                      {formatoPrecio.format(Number(p.precio))}
+                    </span>
+                  </div>
                   <p className="text-xs text-muted">
                     {CATEGORIA_LABEL[p.categoria]} · {p.vendedor.nombre_completo}
                   </p>
+                  <p className="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-muted">
+                    {p.ubicacion && (
+                      <span className="flex items-center gap-1">
+                        <IconLocation className="h-3.5 w-3.5 flex-none" />
+                        {p.ubicacion}
+                      </span>
+                    )}
+                    <span>Publicado {tiempoRelativo(p.creado_en)}</span>
+                  </p>
+                  {p.motivo_moderacion && (
+                    <p className="mt-1 text-xs text-danger">Motivo previo: {p.motivo_moderacion}</p>
+                  )}
                 </div>
                 <div className="flex flex-none gap-2">
                   {estado !== "aprobada" && (

@@ -4,7 +4,7 @@ import { Badge } from "@/shared/ui/Badge";
 import { Button } from "@/shared/ui/Button";
 import { Dropzone } from "@/shared/ui/Dropzone";
 import { Input, Select } from "@/shared/ui/Field";
-import { IconShieldCheck } from "@/shared/ui/icons";
+import { IconClock, IconShieldCheck } from "@/shared/ui/icons";
 import { useToast } from "@/shared/ui/Toast";
 import { useEnviarVerificacion } from "./api";
 import { TIPO_DOCUMENTO_LABEL } from "./labels";
@@ -15,6 +15,10 @@ const ESTADO_TEXTO = {
   aprobado: "Identidad verificada",
   rechazado: "Rechazada — corrige y reenvía",
 };
+
+function formatearFecha(fecha: string) {
+  return new Date(fecha).toLocaleString("es-CO", { day: "numeric", month: "long", hour: "numeric", minute: "2-digit" });
+}
 
 export function VerificationPanel() {
   const { usuario, refrescarUsuario } = useAuth();
@@ -65,17 +69,39 @@ export function VerificationPanel() {
     );
   }
 
+  // Ya hay una solicitud radicada esperando revisión: no se ofrece el
+  // formulario de nuevo (se prestaba a que el usuario reenviara el mismo
+  // documento varias veces pensando que la primera vez no funcionó, tal
+  // como reportó el usuario al probar el sistema).
+  if (usuario.estado_verificacion === "pendiente" && usuario.fecha_solicitud_verificacion) {
+    return (
+      <div className="flex items-start gap-3 rounded-xl bg-warning-bg px-4 py-3.5">
+        <IconClock className="mt-0.5 h-6 w-6 flex-none text-warning" />
+        <div>
+          <p className="text-sm font-semibold text-ink">Tu verificación está en revisión</p>
+          <p className="mt-1 text-xs text-muted">
+            Enviada el {formatearFecha(usuario.fecha_solicitud_verificacion)}. Un administrador la revisará en un
+            máximo de 48 horas — te avisaremos apenas se resuelva. Mientras tanto no puedes publicar ni contactar
+            vendedores.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  const esReenvio = usuario.estado_verificacion === "rechazado";
+
   return (
     <div>
       <div className="mb-4 flex items-center gap-2">
         <span className="text-sm font-semibold">Verificación de identidad</span>
-        <Badge tono={ESTADO_TONO[usuario.estado_verificacion]}>{ESTADO_TEXTO[usuario.estado_verificacion]}</Badge>
+        {esReenvio && <Badge tono={ESTADO_TONO[usuario.estado_verificacion]}>{ESTADO_TEXTO[usuario.estado_verificacion]}</Badge>}
       </div>
 
       <form onSubmit={handleSubmit}>
         <p className="mb-4 text-sm text-muted">
-          No puedes publicar ni contactar vendedores hasta que un administrador apruebe tu documento —
-          normalmente toma menos de un día.
+          No puedes publicar ni contactar vendedores hasta que un administrador apruebe tu documento — normalmente
+          se resuelve en menos de 48 horas.
         </p>
         <div className="grid grid-cols-2 gap-3">
           <Select etiqueta="Tipo de documento" value={tipoDocumento} onChange={(e) => setTipoDocumento(e.target.value)}>

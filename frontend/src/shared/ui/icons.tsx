@@ -210,6 +210,43 @@ export function IconPackage(props: IconProps) {
   );
 }
 
+export function IconClock(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 7.5V12l3 2" />
+    </svg>
+  );
+}
+
+export function IconSun(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2.5v2.3M12 19.2v2.3M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M2.5 12h2.3M19.2 12h2.3M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6" />
+    </svg>
+  );
+}
+
+export function IconMoon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" />
+    </svg>
+  );
+}
+
+export function IconCookie(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M20 12.5a8 8 0 1 1-8-8.5c0 1.7 1.3 3 3 3a3 3 0 0 0 3-3c1.2 1.4 2 3.2 2 5.2v3.3Z" />
+      <circle cx="9.5" cy="13" r=".8" fill="currentColor" stroke="none" />
+      <circle cx="13.5" cy="16" r=".8" fill="currentColor" stroke="none" />
+      <circle cx="14" cy="11" r=".8" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
 export const CATEGORIA_ICONOS = {
   insumo_veterinario: IconSyringe,
   alimento_balanceado: IconWheat,

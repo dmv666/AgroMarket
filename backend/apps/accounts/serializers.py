@@ -41,6 +41,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
             "numero_documento",
             "documento_identidad_archivo",
             "estado_verificacion",
+            "fecha_solicitud_verificacion",
             "es_administrador",
             "promedio_calificacion",
             "total_calificaciones",
@@ -51,6 +52,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
             "email",
             "documento_identidad_archivo",
             "estado_verificacion",
+            "fecha_solicitud_verificacion",
             "es_administrador",
             "promedio_calificacion",
             "total_calificaciones",
@@ -84,6 +86,21 @@ class VerificacionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
         fields = ["tipo_documento", "numero_documento", "documento_identidad_archivo"]
+
+    def validate(self, attrs):
+        # No se permite una segunda solicitud mientras la primera sigue sin
+        # revisar (evita que la cola de un admin se llene de reenvíos del
+        # mismo usuario). Una vez que la revisión queda resuelta (aprobada o
+        # rechazada), estado_verificacion ya no es PENDIENTE y esto no aplica.
+        instance = self.instance
+        if (
+            instance.estado_verificacion == Usuario.EstadoVerificacion.PENDIENTE
+            and instance.fecha_solicitud_verificacion is not None
+        ):
+            raise serializers.ValidationError(
+                "Ya tienes una verificación en curso. Un administrador la revisará en un máximo de 48 horas."
+            )
+        return attrs
 
     def update(self, instance, validated_data):
         for field, value in validated_data.items():
