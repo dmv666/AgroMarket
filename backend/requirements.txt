@@ -1,0 +1,30 @@
+# Framework
+Django>=5.2,<5.3
+djangorestframework>=3.16,<3.17
+
+# Tiempo real
+channels>=4.1,<5
+daphne>=4.1,<5
+
+# Base de datos
+psycopg[binary]>=3.2,<4
+
+# Auth
+djangorestframework-simplejwt>=5.4,<6
+
+# Utilidades transversales
+django-environ>=0.11,<1
+django-cors-headers>=4.4,<5
+django-filter>=24.3,<25
+Pillow>=11.0,<12
+
+# Documentación de API
+drf-spectacular>=0.27,<0.28
+
+# Testing
+pytest>=8.3,<9
+pytest-django>=4.9,<5
+factory_boy>=3.3,<4
+
+# Lint / format
+ruff>=0.7,<1
