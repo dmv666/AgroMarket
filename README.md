@@ -94,7 +94,8 @@ docker compose -f docker-compose.sonar.yml up -d
 4. Con la app corriendo (`docker compose up -d`), analizar el repo:
 
    ```bash
-   ./sonar-scan.sh
+   ./sonar-scan.sh        # macOS / Linux / Git Bash
+   .\sonar-scan.ps1       # Windows (PowerShell)
    ```
 
    El script corre los tests del backend con cobertura (`pytest-cov`) y luego el scanner. Los
