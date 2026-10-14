@@ -1,0 +1,61 @@
+# Despliegue de producción del backend + base de datos (el frontend va en
+# Vercel). Guía completa en docs/DESPLIEGUE.md.
+#
+#   cp .env.prod.example .env.prod   # y completar los valores
+#   docker compose -f docker-compose.prod.yml up -d --build
+
+name: agromarket-prod
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    env_file: .env.prod
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    # Sin "ports": la base solo es accesible desde los otros contenedores.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    env_file: .env.prod
+    environment:
+      POSTGRES_HOST: db
+    # Sin bind mount del código: corre lo que quedó en la imagen al construirla.
+    volumes:
+      - media:/app/media
+      - static:/app/staticfiles
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # Proxy HTTPS: certificado automático de Let's Encrypt, WebSockets hacia
+  # daphne, y /media + /static servidos directo desde los volúmenes.
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    env_file: .env.prod
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - media:/srv/media:ro
+      - static:/srv/static:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+  media:
+  static:
+  caddy_data:
+  caddy_config:

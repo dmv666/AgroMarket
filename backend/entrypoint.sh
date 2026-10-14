@@ -11,5 +11,9 @@ fi
 echo "Aplicando migraciones..."
 python manage.py migrate --noinput
 
+# Archivos estáticos del admin y de DRF; en producción los sirve Caddy desde
+# STATIC_ROOT (ver docker-compose.prod.yml). En desarrollo no estorba.
+python manage.py collectstatic --noinput --verbosity 0
+
 echo "Iniciando servidor ASGI (daphne)..."
 exec daphne -b 0.0.0.0 -p 8000 config.asgi:application
