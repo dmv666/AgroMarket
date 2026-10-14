@@ -4,8 +4,7 @@ Marketplace especializado en el sector agropecuario y agroganadero (insumos vete
 balanceado, animales y genética), con verificación de identidad de usuarios y moderación de
 publicaciones. Proyecto MVP — Politécnico Grancolombiano, Emprendimiento de Base Tecnológica.
 
-Cubre los requisitos funcionales RF01–RF11 y no funcionales RNF01–RNF07 documentados en
-`Requerimientos_Funcionales_No_Funcionales_Escenario_3.pdf`.
+Cubre los requisitos funcionales RF01–RF11 y no funcionales RNF01–RNF07 del proyecto.
 
 ## Stack
 
@@ -117,6 +116,3 @@ se conservan en sus volúmenes).
 - **Publicaciones por especialización**: `Publicacion` es la tabla base; `InsumoVeterinario`,
   `AlimentoBalanceado` y `AnimalGenetica` son tablas 1–1 con sus propios campos y validaciones (en
   particular, RF04 exige `estado_salud` obligatorio solo para animales/genética).
-
-El detalle completo de estas decisiones está en el plan de implementación de la primera sesión de
-desarrollo del proyecto.
