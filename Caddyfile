@@ -1,0 +1,25 @@
+# Proxy del backend en producción (ver docker-compose.prod.yml).
+# BACKEND_DOMAIN viene de .env.prod; Caddy obtiene y renueva el certificado
+# HTTPS solo, siempre que el dominio apunte a este servidor y los puertos
+# 80/443 estén abiertos.
+
+{$BACKEND_DOMAIN} {
+	encode gzip
+
+	# Fotos de publicaciones, certificados y documentos de verificación.
+	handle_path /media/* {
+		root * /srv/media
+		file_server
+	}
+
+	# Estáticos del admin de Django y de DRF (generados por collectstatic).
+	handle_path /static/* {
+		root * /srv/static
+		file_server
+	}
+
+	# API, admin y WebSockets (/ws/...) hacia daphne.
+	handle {
+		reverse_proxy backend:8000
+	}
+}

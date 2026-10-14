@@ -1,10 +1,11 @@
 import axios, { type AxiosError, type InternalAxiosRequestConfig } from "axios";
 import { tokenStorage } from "../auth/tokenStorage";
+import { BACKEND_URL } from "./backendUrl";
 
 // Instancia única de axios para toda la app: un solo lugar inyecta el JWT y
 // maneja el refresh automático (DRY — ninguna feature vuelve a escribir
 // esta lógica por su cuenta).
-export const apiClient = axios.create({ baseURL: "/api" });
+export const apiClient = axios.create({ baseURL: `${BACKEND_URL}/api` });
 
 apiClient.interceptors.request.use((config) => {
   const token = tokenStorage.getAccess();
@@ -20,7 +21,7 @@ async function refrescarToken(): Promise<string | null> {
   const refresh = tokenStorage.getRefresh();
   if (!refresh) return null;
   try {
-    const { data } = await axios.post("/api/auth/login/refresh/", { refresh });
+    const { data } = await axios.post(`${BACKEND_URL}/api/auth/login/refresh/`, { refresh });
     tokenStorage.setAccess(data.access);
     return data.access as string;
   } catch {

@@ -71,6 +71,11 @@ docker compose run --rm backend python manage.py migrate
 docker compose run --rm frontend npx tsc -b --noEmit
 ```
 
+## Despliegue
+
+Frontend en Vercel; backend y base de datos en un servidor propio con Docker y HTTPS automático
+(Caddy). Paso a paso en [`docs/DESPLIEGUE.md`](docs/DESPLIEGUE.md).
+
 ## Análisis de calidad con SonarQube
 
 Servidor local de SonarQube (Community Build) definido en `docker-compose.sonar.yml`, separado de

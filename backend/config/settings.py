@@ -155,6 +155,15 @@ CORS_ALLOWED_ORIGINS = env.list(
     "CORS_ALLOWED_ORIGINS", default=["http://localhost:5173"]
 )
 
+# --- Producción detrás de un proxy HTTPS (Caddy, ver docs/DESPLIEGUE.md) ---
+# El proxy termina TLS y reenvía en HTTP; sin esto Django cree que la petición
+# es http:// y construye así las URLs de fotos y documentos (el navegador las
+# bloquea como contenido mixto) y rechaza el login del admin por CSRF.
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=[])
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+
 # --- Channels: canal en memoria, un solo proceso (decisión del MVP: sin Redis) ---
 CHANNEL_LAYERS = {
     "default": {

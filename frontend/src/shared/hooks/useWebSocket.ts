@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { wsUrl } from "../api/backendUrl";
 import { tokenStorage } from "../auth/tokenStorage";
 
 /**
@@ -18,8 +19,7 @@ export function useWebSocket(path: string | null, onMessage: (data: unknown) => 
     const token = tokenStorage.getAccess();
     if (!token) return;
 
-    const protocolo = window.location.protocol === "https:" ? "wss:" : "ws:";
-    const socket = new WebSocket(`${protocolo}//${window.location.host}${path}?token=${token}`);
+    const socket = new WebSocket(`${wsUrl(path)}?token=${token}`);
     socketRef.current = socket;
 
     socket.onopen = () => setConectado(true);
