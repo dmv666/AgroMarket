@@ -1,5 +1,5 @@
 """
-Configuración del proyecto Campo Directo.
+Configuración del proyecto AgroMarket.
 
 Un solo archivo de settings: para el alcance de este MVP (evaluado localmente,
 un único entorno de despliegue objetivo) separar en base/dev/prod añadiría
@@ -83,9 +83,9 @@ ASGI_APPLICATION = "config.asgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": env("POSTGRES_DB", default="campo_directo"),
-        "USER": env("POSTGRES_USER", default="campo_directo"),
-        "PASSWORD": env("POSTGRES_PASSWORD", default="campo_directo"),
+        "NAME": env("POSTGRES_DB", default="agromarket"),
+        "USER": env("POSTGRES_USER", default="agromarket"),
+        "PASSWORD": env("POSTGRES_PASSWORD", default="agromarket"),
         "HOST": env("POSTGRES_HOST", default="localhost"),
         "PORT": env("POSTGRES_PORT", default="5432"),
     }
@@ -140,9 +140,9 @@ SIMPLE_JWT = {
 }
 
 SPECTACULAR_SETTINGS = {
-    "TITLE": "Campo Directo API",
+    "TITLE": "AgroMarket API",
     "DESCRIPTION": (
-        "API del marketplace agropecuario Campo Directo. "
+        "API del marketplace agropecuario AgroMarket. "
         "Cubre RF01-RF11 (registro y verificación, catálogo, mensajería, "
         "transacciones y reputación, moderación y notificaciones)."
     ),

@@ -3,15 +3,15 @@ services:
     image: postgres:16-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-campo_directo}
-      POSTGRES_USER: ${POSTGRES_USER:-campo_directo}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-campo_directo}
+      POSTGRES_DB: ${POSTGRES_DB:-agromarket}
+      POSTGRES_USER: ${POSTGRES_USER:-agromarket}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-agromarket}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-campo_directo}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-agromarket}"]
       interval: 5s
       timeout: 5s
       retries: 10

@@ -52,7 +52,7 @@ export function PublicProfilePage() {
           </div>
           <div>
             <p className="font-display text-lg font-semibold">{new Date(usuario.creado_en).getFullYear()}</p>
-            <p className="text-xs text-muted">en Campo Directo desde</p>
+            <p className="text-xs text-muted">en AgroMarket desde</p>
           </div>
         </div>
       </Card>

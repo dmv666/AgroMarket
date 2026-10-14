@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "./Button";
 import { IconCookie } from "./icons";
 
-const CLAVE_ALMACENAMIENTO = "campo-directo-cookies-aceptadas";
+const CLAVE_ALMACENAMIENTO = "agromarket-cookies-aceptadas";
 
 function yaDecidido() {
   try {
@@ -14,7 +14,7 @@ function yaDecidido() {
 }
 
 /**
- * Campo Directo no usa cookies de rastreo ni publicidad — solo
+ * AgroMarket no usa cookies de rastreo ni publicidad — solo
  * almacenamiento local para la sesión (token) y preferencias (tema). El
  * aviso es honesto sobre eso en vez de simular un selector de categorías
  * que no tendría nada real que activar o desactivar.

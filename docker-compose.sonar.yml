@@ -1,8 +1,8 @@
 # Servidor local de SonarQube para el análisis estático de todo el repo.
-# Vive en un compose aparte (proyecto "campo-directo-sonar") para no cargar
+# Vive en un compose aparte (proyecto "agromarket-sonar") para no cargar
 # los ~2 GB de RAM de SonarQube cada vez que se levanta la app. Ver README.
 
-name: campo-directo-sonar
+name: agromarket-sonar
 
 services:
   sonar-db:

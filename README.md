@@ -1,4 +1,4 @@
-# Campo Directo
+# AgroMarket
 
 Marketplace especializado en el sector agropecuario y agroganadero (insumos veterinarios, alimento
 balanceado, animales y genética), con verificación de identidad de usuarios y moderación de
@@ -99,7 +99,7 @@ docker compose -f docker-compose.sonar.yml up -d
    ```
 
    El script corre los tests del backend con cobertura (`pytest-cov`) y luego el scanner. Los
-   resultados quedan en http://localhost:9000/dashboard?id=campo-directo. Repetirlo tras cada
+   resultados quedan en http://localhost:9000/dashboard?id=agromarket. Repetirlo tras cada
    cambio para ver la evolución.
 
 Para detener SonarQube: `docker compose -f docker-compose.sonar.yml down` (los datos del análisis

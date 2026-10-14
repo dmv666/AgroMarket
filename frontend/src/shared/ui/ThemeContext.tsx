@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 
 type Tema = "light" | "dark";
-const CLAVE_ALMACENAMIENTO = "campo-directo-tema";
+const CLAVE_ALMACENAMIENTO = "agromarket-tema";
 
 function temaInicial(): Tema {
   const guardado = localStorage.getItem(CLAVE_ALMACENAMIENTO);

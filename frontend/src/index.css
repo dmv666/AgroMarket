@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 
-/* Paleta e identidad visual de "Campo Directo", ya validadas en el
+/* Paleta e identidad visual de "AgroMarket", ya validadas en el
    prototipo navegable previo — se reutilizan tal cual, no se reinventan. */
 @theme {
   --color-bg: #eff2ea;

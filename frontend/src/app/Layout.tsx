@@ -25,7 +25,7 @@ export function Layout() {
       <header className="sticky top-0 z-10 border-b border-line bg-surface/90 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center gap-5 px-4 py-3 sm:px-6">
           <Link to="/" className="flex items-center gap-1.5 font-display text-lg font-semibold text-primary">
-            🌾 Campo Directo
+            🌾 AgroMarket
           </Link>
           <nav className="hidden flex-1 items-center gap-1 md:flex">
             <NavLink to="/" end className={enlace}>
@@ -139,7 +139,7 @@ export function Layout() {
 
       <footer className="border-t border-line">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-2 px-4 py-6 text-xs text-muted sm:flex-row sm:justify-between sm:px-6">
-          <p>© 2026 Campo Directo — proyecto académico, Politécnico Grancolombiano.</p>
+          <p>© 2026 AgroMarket — proyecto académico, Politécnico Grancolombiano.</p>
           <div className="flex gap-4">
             <Link to="/terminos" className="hover:text-ink">
               Términos y condiciones

@@ -22,4 +22,4 @@ docker compose run --rm backend sh -c \
 echo "==> Análisis de SonarQube..."
 docker compose -f docker-compose.sonar.yml run --rm scanner
 
-echo "==> Listo: http://localhost:9000/dashboard?id=campo-directo"
+echo "==> Listo: http://localhost:9000/dashboard?id=agromarket"

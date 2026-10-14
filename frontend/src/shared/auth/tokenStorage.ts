@@ -1,7 +1,7 @@
 // Único lugar que toca localStorage para los tokens — si mañana cambia el
 // mecanismo de persistencia (p.ej. cookies httpOnly), solo se toca este archivo.
-const ACCESS_KEY = "campo_directo_access";
-const REFRESH_KEY = "campo_directo_refresh";
+const ACCESS_KEY = "agromarket_access";
+const REFRESH_KEY = "agromarket_refresh";
 
 export const tokenStorage = {
   getAccess: () => localStorage.getItem(ACCESS_KEY),
