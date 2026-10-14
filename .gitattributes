@@ -1,0 +1,16 @@
+# Normaliza saltos de línea para que el repo funcione igual en Windows, macOS y Linux.
+* text=auto
+
+# Los scripts de shell se ejecutan dentro de contenedores Linux (entrypoint.sh) o
+# con sh: con CRLF fallan ("exec /entrypoint.sh: no such file or directory").
+*.sh text eol=lf
+
+# Scripts de Windows
+*.ps1 text eol=crlf
+
+# Binarios
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary

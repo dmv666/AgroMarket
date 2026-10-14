@@ -72,6 +72,39 @@ docker compose run --rm backend python manage.py migrate
 docker compose run --rm frontend npx tsc -b --noEmit
 ```
 
+## Análisis de calidad con SonarQube
+
+Servidor local de SonarQube (Community Build) definido en `docker-compose.sonar.yml`, separado de
+la app para no cargar sus ~2 GB de RAM en el día a día. La configuración del análisis está en
+`sonar-project.properties`.
+
+```bash
+# 1. Levantar SonarQube (tarda 1–2 min la primera vez)
+docker compose -f docker-compose.sonar.yml up -d
+```
+
+2. Entrar a http://localhost:9000 con `admin` / `admin`. SonarQube pide cambiar la contraseña.
+3. En **My Account → Security**, generar un token de tipo *Global Analysis Token* y guardarlo en
+   `.env.sonar` (no se versiona):
+
+   ```
+   SONAR_TOKEN=sqa_xxxxxxxxxxxxxxxx
+   ```
+
+4. Con la app corriendo (`docker compose up -d`), analizar el repo:
+
+   ```bash
+   ./sonar-scan.sh        # macOS / Linux / Git Bash
+   .\sonar-scan.ps1       # Windows (PowerShell)
+   ```
+
+   El script corre los tests del backend con cobertura (`pytest-cov`) y luego el scanner. Los
+   resultados quedan en http://localhost:9000/dashboard?id=campo-directo. Repetirlo tras cada
+   cambio para ver la evolución.
+
+Para detener SonarQube: `docker compose -f docker-compose.sonar.yml down` (los datos del análisis
+se conservan en sus volúmenes).
+
 ## Decisiones de arquitectura (resumen)
 
 - **Apps Django por dominio de negocio**, no por tipo técnico — cada una puede evolucionar sin

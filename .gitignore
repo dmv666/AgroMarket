@@ -9,6 +9,8 @@ backend/staticfiles/
 *.sqlite3
 .ruff_cache/
 .pytest_cache/
+.coverage
+backend/coverage.xml
 
 # --- Node / React ---
 node_modules/
@@ -26,6 +28,9 @@ frontend/*.tsbuildinfo
 .idea/
 .DS_Store
 Thumbs.db
+
+# --- SonarQube ---
+.scannerwork/
 
 # --- Docker ---
 *.pid

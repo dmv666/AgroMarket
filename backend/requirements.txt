@@ -25,6 +25,7 @@ drf-spectacular>=0.27,<0.28
 pytest>=8.3,<9
 pytest-django>=4.9,<5
 factory_boy>=3.3,<4
+pytest-cov>=6.0,<7
 
 # Lint / format
 ruff>=0.7,<1
