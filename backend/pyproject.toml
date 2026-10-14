@@ -10,3 +10,9 @@ ignore = ["E501"]
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "config.settings"
 python_files = ["tests.py", "test_*.py"]
+
+[tool.coverage.run]
+# Rutas relativas en coverage.xml para que SonarQube (que corre en otro
+# contenedor, con el repo montado en otra ruta) pueda resolver los archivos.
+relative_files = true
+omit = ["*/migrations/*", "*/tests.py", "*/tests/*", "*/test_*.py"]
