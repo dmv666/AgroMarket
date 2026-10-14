@@ -9,7 +9,7 @@ const PUNTOS = [
 
 /**
  * Panel de marca + formulario, en vez de una tarjeta centrada suelta sobre
- * el fondo — es lo primero que ve alguien nuevo en Campo Directo y debe
+ * el fondo — es lo primero que ve alguien nuevo en AgroMarket y debe
  * transmitir de qué se trata la plataforma, no solo pedir credenciales.
  */
 export function AuthLayout({ titulo, subtitulo, children }: { titulo: string; subtitulo: string; children: ReactNode }) {
@@ -18,7 +18,7 @@ export function AuthLayout({ titulo, subtitulo, children }: { titulo: string; su
       <div className="grid grid-cols-1 sm:grid-cols-2">
         <div className="hidden flex-col justify-between bg-primary p-8 text-primary-ink sm:flex">
           <div>
-            <p className="font-display text-xl font-semibold">🌾 Campo Directo</p>
+            <p className="font-display text-xl font-semibold">🌾 AgroMarket</p>
             <p className="mt-3 text-sm leading-relaxed text-primary-ink/80">
               El marketplace para comprar y vender directo con productores y proveedores
               agropecuarios verificados.

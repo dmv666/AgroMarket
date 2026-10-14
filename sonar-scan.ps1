@@ -17,4 +17,4 @@ Write-Host "==> Analisis de SonarQube..."
 docker compose -f docker-compose.sonar.yml run --rm scanner
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-Write-Host "==> Listo: http://localhost:9000/dashboard?id=campo-directo"
+Write-Host "==> Listo: http://localhost:9000/dashboard?id=agromarket"

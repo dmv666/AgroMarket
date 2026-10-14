@@ -3,9 +3,9 @@ import { LegalLayout, Seccion } from "./LegalLayout";
 export function TerminosPage() {
   return (
     <LegalLayout titulo="Términos y condiciones" actualizado="12 de septiembre de 2026">
-      <Seccion titulo="1. Qué es Campo Directo">
+      <Seccion titulo="1. Qué es AgroMarket">
         <p>
-          Campo Directo es un marketplace donde productores, proveedores y compradores del sector
+          AgroMarket es un marketplace donde productores, proveedores y compradores del sector
           agropecuario publican y encuentran insumos veterinarios, alimento balanceado y animales o
           material genético. Este sitio es un proyecto académico (Politécnico Grancolombiano) que
           funciona como un producto real para efectos de evaluación; al usarlo aceptas estos
@@ -41,7 +41,7 @@ export function TerminosPage() {
 
       <Seccion titulo="5. Las transacciones son entre comprador y vendedor">
         <p>
-          Campo Directo no interviene en el pago ni en la entrega del producto: no somos pasarela de
+          AgroMarket no interviene en el pago ni en la entrega del producto: no somos pasarela de
           pago, no custodiamos dinero y no garantizamos el resultado de una negociación. El
           comprador y el vendedor acuerdan directamente cómo pagar y entregar, y son los únicos
           responsables de cumplir lo pactado. Registrar una transacción como completada en la
@@ -85,7 +85,7 @@ export function TerminosPage() {
 
       <Seccion titulo="10. Contacto">
         <p>
-          Preguntas sobre estos términos: <strong>soporte@campodirecto.co</strong>.
+          Preguntas sobre estos términos: <strong>soporte@agromarket.co</strong>.
         </p>
       </Seccion>
     </LegalLayout>

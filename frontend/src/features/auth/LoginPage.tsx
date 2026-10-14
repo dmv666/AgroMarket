@@ -28,7 +28,7 @@ export function LoginPage() {
   }
 
   return (
-    <AuthLayout titulo="Inicia sesión" subtitulo="Accede a tu cuenta de Campo Directo.">
+    <AuthLayout titulo="Inicia sesión" subtitulo="Accede a tu cuenta de AgroMarket.">
       <form onSubmit={handleSubmit}>
         <Input etiqueta="Email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
         <Input

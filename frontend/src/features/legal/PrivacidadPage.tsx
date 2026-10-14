@@ -53,13 +53,13 @@ export function PrivacidadPage() {
           Conforme a la Ley 1581 de 2012 (protección de datos personales, Colombia) puedes acceder,
           corregir o solicitar la eliminación de tus datos, y revocar tu autorización en cualquier
           momento. Desde tu perfil puedes editar tus datos de contacto directamente; para cualquier
-          otra solicitud escríbenos a <strong>soporte@campodirecto.co</strong>.
+          otra solicitud escríbenos a <strong>soporte@agromarket.co</strong>.
         </p>
       </Seccion>
 
       <Seccion titulo="7. Cookies y almacenamiento local">
         <p>
-          Campo Directo no usa cookies de rastreo, analítica de terceros ni publicidad. Guardamos en
+          AgroMarket no usa cookies de rastreo, analítica de terceros ni publicidad. Guardamos en
           el almacenamiento local de tu navegador (no en una cookie tradicional) tres cosas: el
           token que mantiene tu sesión iniciada, tu preferencia de modo claro/oscuro, y si ya viste
           este aviso. Nada de eso sale de tu navegador ni se comparte con terceros.
@@ -67,7 +67,7 @@ export function PrivacidadPage() {
       </Seccion>
 
       <Seccion titulo="8. Menores de edad">
-        <p>Campo Directo no está dirigido a menores de 18 años y no recopila deliberadamente sus datos.</p>
+        <p>AgroMarket no está dirigido a menores de 18 años y no recopila deliberadamente sus datos.</p>
       </Seccion>
 
       <Seccion titulo="9. Cambios a esta política">
@@ -79,7 +79,7 @@ export function PrivacidadPage() {
 
       <Seccion titulo="10. Contacto">
         <p>
-          Preguntas sobre tus datos: <strong>soporte@campodirecto.co</strong>.
+          Preguntas sobre tus datos: <strong>soporte@agromarket.co</strong>.
         </p>
       </Seccion>
     </LegalLayout>

@@ -14,25 +14,25 @@ class Command(BaseCommand):
     help = "Crea un administrador, dos usuarios verificados y publicaciones de ejemplo."
 
     def handle(self, *args, **options):
-        if Usuario.objects.filter(email="admin@campodirecto.co").exists():
+        if Usuario.objects.filter(email="admin@agromarket.co").exists():
             self.stdout.write(self.style.WARNING("Los datos de ejemplo ya existen, no se repite la carga."))
             return
 
         admin = Usuario.objects.create_superuser(
-            email="admin@campodirecto.co", password="CampoDirecto2026", nombre_completo="Admin Campo Directo"
+            email="admin@agromarket.co", password="AgroMarket2026", nombre_completo="Admin AgroMarket"
         )
 
         vendedor = Usuario.objects.create_user(
-            email="finca.esperanza@campodirecto.co",
-            password="CampoDirecto2026",
+            email="finca.esperanza@agromarket.co",
+            password="AgroMarket2026",
             nombre_completo="Finca La Esperanza",
             ubicacion="Puerto López, Meta",
             estado_verificacion=Usuario.EstadoVerificacion.APROBADO,
             revisor_verificacion=admin,
         )
         Usuario.objects.create_user(
-            email="comprador.demo@campodirecto.co",
-            password="CampoDirecto2026",
+            email="comprador.demo@agromarket.co",
+            password="AgroMarket2026",
             nombre_completo="Comprador Demo",
             ubicacion="Villavicencio, Meta",
             estado_verificacion=Usuario.EstadoVerificacion.APROBADO,
@@ -90,6 +90,6 @@ class Command(BaseCommand):
             detalle_modelo.objects.create(publicacion=publicacion, **detalle)
 
         self.stdout.write(self.style.SUCCESS("Datos de ejemplo cargados."))
-        self.stdout.write("  Admin:     admin@campodirecto.co / CampoDirecto2026")
-        self.stdout.write("  Vendedor:  finca.esperanza@campodirecto.co / CampoDirecto2026")
-        self.stdout.write("  Comprador: comprador.demo@campodirecto.co / CampoDirecto2026")
+        self.stdout.write("  Admin:     admin@agromarket.co / AgroMarket2026")
+        self.stdout.write("  Vendedor:  finca.esperanza@agromarket.co / AgroMarket2026")
+        self.stdout.write("  Comprador: comprador.demo@agromarket.co / AgroMarket2026")
